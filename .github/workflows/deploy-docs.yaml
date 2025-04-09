@@ -6,7 +6,7 @@ on:
     paths:
       - docs/**
       - .github/workflows/deploy-docs.yaml
-      - fastagency/__about__.py
+      - mcp_servers/__about__.py
 
 permissions:
   contents: write
@@ -27,8 +27,8 @@ jobs:
           path: .cache
       - run: pip install -e ".[dev]"
       - run: ./scripts/build-docs.sh
-      - run: echo "VERSION=$(python3 -c 'from importlib.metadata import version; print(".".join(version("fastagency").split(".")[:2]))')" >> $GITHUB_ENV
-      - run: echo "IS_RC=$(python3 -c 'from importlib.metadata import version; print("rc" in version("fastagency"))')" >> $GITHUB_ENV
+      - run: echo "VERSION=$(python3 -c 'from importlib.metadata import version; print(".".join(version("mcp_servers").split(".")[:2]))')" >> $GITHUB_ENV
+      - run: echo "IS_RC=$(python3 -c 'from importlib.metadata import version; print("rc" in version("mcp_servers"))')" >> $GITHUB_ENV
       - name: Configure Git user
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"

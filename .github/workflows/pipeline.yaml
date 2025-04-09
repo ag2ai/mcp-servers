@@ -35,11 +35,11 @@ jobs:
           pip install -e ".[devdocs,lint,testing]"
       - name: Run mypy
         shell: bash
-        run: mypy fastagency tests
+        run: mypy
 
       - name: Run bandit
         shell: bash
-        run: bandit -c pyproject.toml -r fastagency
+        run: bandit -c pyproject.toml -r mcp_servers
 
       - name: Run Semgrep
         shell: bash
@@ -129,7 +129,7 @@ jobs:
       - run: ls -la coverage
       - run: coverage combine coverage
       - run: coverage report -i
-      - run: coverage html -i --show-contexts --title "FastAgency coverage for ${{ github.sha }}"
+      - run: coverage html -i --show-contexts --title "mcp-servers coverage for ${{ github.sha }}"
 
       - name: Store coverage html
         uses: actions/upload-artifact@v4
@@ -141,7 +141,7 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: ag2ai/fastagency
+          slug: ag2ai/mcp-servers
 
   pre-commit-check:
     runs-on: ubuntu-latest

@@ -6,7 +6,7 @@ echo "Running mypy..."
 mypy
 
 echo "Running bandit..."
-bandit -c pyproject.toml -r fastagency
+bandit -c pyproject.toml -r mcp_servers
 
 echo "Running semgrep..."
 semgrep scan --config auto --error
