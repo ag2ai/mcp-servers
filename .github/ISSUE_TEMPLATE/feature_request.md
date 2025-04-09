@@ -15,10 +15,10 @@ Provide a clear and concise description of the problem you've encountered. For e
 Clearly and concisely describe the desired outcome or solution.
 
 **Feature code example**
-To help others understand the proposed feature, illustrate it with a **FastAgency** code example:
+To help others understand the proposed feature, illustrate it with a code example:
 
 ```python
-from fastagency import FastAgency
+from mcp_servers import *
 ...
 ```
 

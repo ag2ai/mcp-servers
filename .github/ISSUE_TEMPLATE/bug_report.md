@@ -13,7 +13,7 @@ Provide a clear and concise description of the bug.
 Include source code:
 
 ```python
-from fastagency import FastAgency
+from mcp_servers import *
 ...
 ```
 
@@ -31,7 +31,7 @@ Describe what is actually happening clearly and concisely.
 If applicable, attach screenshots to help illustrate the problem.
 
 **Environment**
-Include the output of the `fastagency -v` command to display your current project and system environment.
+Include the output of the `pip list` command to display your current project and system environment.
 
 **Additional context**
 Provide any other relevant context or information about the problem here.
