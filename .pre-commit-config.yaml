@@ -1,0 +1,85 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: |
+          (?x)^(
+              ^docs/docs/en/user-guide/cli/.*|
+              ^docs/docs_src/getting_started
+          )
+      - id: end-of-file-fixer
+        exclude: |
+          (?x)^(
+              ^docs/docs/en/release.md|
+              ^docs/docs/SUMMARY.md|
+              ^docs/docs/en/api/.meta.yml|
+              ^docs/docs_src/getting_started
+          )
+      - id: check-yaml
+        exclude: "docs/mkdocs.yml"
+      - id: check-added-large-files
+        exclude: |
+          (?x)^(
+              blog/package-lock.json
+          )$
+
+  - repo: local
+    hooks:
+      - id: lint
+        name: Linter
+        entry: "scripts/lint-pre-commit.sh"
+        language: python
+        #        language_version: python3.9
+        types: [python]
+        require_serial: true
+        verbose: true
+
+  - repo: local
+    hooks:
+      - id: check-license-headers
+        name: check license headers
+        entry: python ./scripts/pre-commit-license-check.py
+        language: python
+        types: [python]
+        exclude: |
+          (?x)^(
+            notebook/.* |
+            website/.*
+          )$
+
+  - repo: local
+    hooks:
+      - id: static-analysis
+        name: Static analysis
+        entry: "scripts/static-pre-commit.sh"
+        language: python
+        #        language_version: python3.9
+        types: [python]
+        require_serial: true
+        verbose: true
+
+  - repo: local
+    hooks:
+      - id: docs
+        name: Build docs
+        entry: "scripts/build-docs-pre-commit.sh"
+        language: python
+        #language_version: python3.10
+        files: ^docs
+        require_serial: true
+        verbose: true
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ["--baseline", ".secrets.baseline"]
+        exclude: |
+          (?x)^(
+              package.lock.json|
+              pnpm-lock.yaml|
+              examples/openapi/whatsapp_openapi_complete.json
+          )$

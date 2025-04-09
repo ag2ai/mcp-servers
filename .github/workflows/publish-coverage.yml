@@ -1,0 +1,35 @@
+name: Smokeshow
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  statuses: write
+
+jobs:
+  smokeshow:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - run: pip install smokeshow
+
+      - uses: dawidd6/action-download-artifact@v7  # nosemgrep
+        with:
+          workflow: pipeline.yaml
+          workflow_conclusion: success
+          if_no_artifact_found: fail
+
+      - run: smokeshow upload coverage-html
+        env:
+          SMOKESHOW_GITHUB_STATUS_DESCRIPTION: Coverage {coverage-percentage}
+          SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 70
+          SMOKESHOW_GITHUB_CONTEXT: coverage
+          SMOKESHOW_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SMOKESHOW_GITHUB_PR_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          SMOKESHOW_AUTH_KEY: ${{ secrets.SMOKESHOW_AUTH_KEY }}
