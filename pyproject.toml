@@ -96,7 +96,7 @@ test-core = [
 ]
 
 testing = [
-    "mcp-servers",
+    "mcp-servers[test-core]",
 #    "pydantic-settings==2.8.1",
 #    "PyYAML==6.0.2",
 #    "watchfiles==1.0.4",

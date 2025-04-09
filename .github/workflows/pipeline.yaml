@@ -32,7 +32,7 @@ jobs:
         run: |
           set -ux
           python -m pip install --upgrade pip
-          pip install -e ".[submodules,docs,lint,testing]"
+          pip install -e ".[devdocs,lint,testing]"
       - name: Run mypy
         shell: bash
         run: mypy fastagency tests
@@ -45,17 +45,25 @@ jobs:
         shell: bash
         run: semgrep scan --config auto --error
 
-  test:
+  test-ubuntu:
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12"]
       fail-fast: false
-    uses: ./.github/workflows/test.yaml
-    with:
-      python-version: ${{ matrix.python-version }}
-      environment: null
-      use-llms: ""
-    secrets: inherit  # pragma: allowlist secret
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          cache: "pip"
+          cache-dependency-path: pyproject.toml
+
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: pip install .[devdocs,testing]
+      - name: Test
+        run: bash scripts/test.sh
 
   test-macos-latest:
     if: github.event.pull_request.draft == false
@@ -73,7 +81,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: pip install .[submodules,docs,testing]
       - name: Test
-        run: bash scripts/test.sh -m "not (nats or anthropic or azure_oai or openai or togetherai or llm)"
+        run: bash scripts/test.sh
 
   test-windows-latest:
     if: github.event.pull_request.draft == false
@@ -91,11 +99,11 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: pip install .[submodules,docs,testing]
       - name: Test
-        run: bash scripts/test.sh -m "not (nats or anthropic or azure_oai or openai or togetherai or llm)"
+        run: bash scripts/test.sh
 
   coverage-combine:
     needs:
-      - test
+      - test-ubuntu
       - test-windows-latest
       - test-macos-latest
     runs-on: ubuntu-latest
