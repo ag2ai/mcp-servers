@@ -7,4 +7,4 @@ __all__ = ["dummy"]
 
 def dummy() -> None:
     """Dummy function to avoid import errors."""
-    pass
+    return None

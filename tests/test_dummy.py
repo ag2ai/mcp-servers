@@ -2,7 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+from mcp_servers import dummy
 
 def test_dummy() -> None:
     """Dummy test to ensure pytest is working."""
-    assert True
+    assert dummy() is None
