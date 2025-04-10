@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from mcp_servers import dummy
+from mcp_servers.dummy import dummy
 
 
 def test_dummy() -> None:

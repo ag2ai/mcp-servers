@@ -102,6 +102,17 @@ jobs:
         env:
           COVERAGE_FILE: coverage/.coverage.${{ runner.os }}-py${{ matrix.python-version }}
           CONTEXT: ${{ runner.os }}-py${{ matrix.python-version }}
+      - name: Check coverage file
+        run: ls -al coverage
+      - name: Store coverage files
+        uses: actions/upload-artifact@v4
+        with:
+          name: .coverage.${{ runner.os }}-3.12
+          path: coverage/.coverage.*
+          if-no-files-found: error
+          overwrite: true
+          include-hidden-files: true
+
 
   test-windows-latest:
     if: github.event.pull_request.draft == false
@@ -125,6 +136,17 @@ jobs:
         env:
           COVERAGE_FILE: coverage/.coverage.${{ runner.os }}-py${{ matrix.python-version }}
           CONTEXT: ${{ runner.os }}-py${{ matrix.python-version }}
+      - name: Check coverage file
+        run: ls -al coverage
+      - name: Store coverage files
+        uses: actions/upload-artifact@v4
+        with:
+          name: .coverage.${{ runner.os }}-3.12
+          path: coverage/.coverage.*
+          if-no-files-found: error
+          overwrite: true
+          include-hidden-files: true
+
 
   coverage-combine:
     needs:

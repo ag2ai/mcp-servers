@@ -13,7 +13,8 @@ search:
 - Reference
     - API
         - mcp_servers
-            - [dummy](api/mcp_servers/dummy.md)
+            - dummy
+                - [dummy](api/mcp_servers/dummy/dummy.md)
 - [Contributing](contributing/index.md)
     - [Development](contributing/CONTRIBUTING.md)
     - [Documentation](contributing/docs.md)
