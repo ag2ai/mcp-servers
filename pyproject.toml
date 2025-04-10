@@ -145,6 +145,7 @@ only-include = ["mcp_servers"]
 [tool.mypy]
 
 files = ["mcp_servers", "tests", "docs/docs_src"]
+exclude = ["mcp_servers/servers"]
 
 strict = true
 python_version = "3.9"
@@ -290,5 +291,5 @@ extend-exclude = """
 """
 
 [tool.codespell]
-skip = "./venv*,./docs/site/*,./htmlcov,./examples/openapi/whatsapp_openapi_complete.json"
+skip = "./venv*,./docs/site/*,./mcp_servers/servers"
 ignore-words = ".codespell-whitelist.txt"
