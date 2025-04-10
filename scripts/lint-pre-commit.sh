@@ -16,6 +16,7 @@ cd "$(dirname "$0")"/..
 # Avoid pip spending time quietly retrying since
 # likely cause of failure is lack of VPN connection.
 pip install uv
+uv pip uninstall pyautogen
 uv pip install --editable ".[dev]" \
  --quiet
 
