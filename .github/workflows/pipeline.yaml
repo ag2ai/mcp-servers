@@ -136,6 +136,7 @@ jobs:
         env:
           COVERAGE_FILE: coverage/.coverage.${{ runner.os }}-py${{ matrix.python-version }}
           CONTEXT: ${{ runner.os }}-py${{ matrix.python-version }}
+      - name: Check coverage file
         shell: pwsh
         run: Get-ChildItem -Force coverage
       - name: Store coverage files
