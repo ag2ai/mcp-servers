@@ -2,55 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <url>
         <loc>https://mcp-servers.ag2.ai/latest/</loc>
-        <lastmod>2025-04-09</lastmod>
+        <lastmod>2025-04-10</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://mcp-servers.ag2.ai/latest/"/>
     </url>
     <url>
         <loc>https://mcp-servers.ag2.ai/latest/example/</loc>
-        <lastmod>2025-04-09</lastmod>
+        <lastmod>2025-04-10</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://mcp-servers.ag2.ai/latest/example/"/>
     </url>
     <url>
         <loc>https://mcp-servers.ag2.ai/latest/features/</loc>
-        <lastmod>2025-04-09</lastmod>
+        <lastmod>2025-04-10</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://mcp-servers.ag2.ai/latest/features/"/>
     </url>
     <url>
         <loc>https://mcp-servers.ag2.ai/latest/release/</loc>
-        <lastmod>2025-04-09</lastmod>
+        <lastmod>2025-04-10</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://mcp-servers.ag2.ai/latest/release/"/>
     </url>
     <url>
-        <loc>https://mcp-servers.ag2.ai/latest/api/mcp_servers/dummy/</loc>
-        <lastmod>2025-04-09</lastmod>
+        <loc>https://mcp-servers.ag2.ai/latest/api/mcp_servers/dummy/dummy/</loc>
+        <lastmod>2025-04-10</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="https://mcp-servers.ag2.ai/latest/api/mcp_servers/dummy/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mcp-servers.ag2.ai/latest/api/mcp_servers/dummy/dummy/"/>
     </url>
     <url>
         <loc>https://mcp-servers.ag2.ai/latest/contributing/</loc>
-        <lastmod>2025-04-09</lastmod>
+        <lastmod>2025-04-10</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://mcp-servers.ag2.ai/latest/contributing/"/>
     </url>
     <url>
         <loc>https://mcp-servers.ag2.ai/latest/contributing/CONTRIBUTING/</loc>
-        <lastmod>2025-04-09</lastmod>
+        <lastmod>2025-04-10</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://mcp-servers.ag2.ai/latest/contributing/CONTRIBUTING/"/>
     </url>
     <url>
         <loc>https://mcp-servers.ag2.ai/latest/contributing/docs/</loc>
-        <lastmod>2025-04-09</lastmod>
+        <lastmod>2025-04-10</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://mcp-servers.ag2.ai/latest/contributing/docs/"/>
     </url>
     <url>
         <loc>https://mcp-servers.ag2.ai/latest/user-guide/getting-started/</loc>
-        <lastmod>2025-04-09</lastmod>
+        <lastmod>2025-04-10</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://mcp-servers.ag2.ai/latest/user-guide/getting-started/"/>
     </url>
