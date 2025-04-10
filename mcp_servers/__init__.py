@@ -5,6 +5,6 @@
 __all__ = ["dummy"]
 
 
-def dummy() -> None:
+def dummy() -> int:
     """Dummy function to avoid import errors."""
-    return None
+    return 42

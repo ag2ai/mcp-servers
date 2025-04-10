@@ -4,6 +4,7 @@
 
 from mcp_servers import dummy
 
+
 def test_dummy() -> None:
     """Dummy test to ensure pytest is working."""
-    assert dummy() is None
+    assert dummy() == 42
