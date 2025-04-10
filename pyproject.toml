@@ -145,7 +145,7 @@ only-include = ["mcp_servers"]
 [tool.mypy]
 
 files = ["mcp_servers", "tests", "docs/docs_src"]
-exclude = ["mcp_servers/servers"]
+exclude = ['mcp_servers/servers']
 
 strict = true
 python_version = "3.9"
@@ -173,7 +173,7 @@ fix = true
 line-length = 88
 # target-version = 'py39'
 include = ["mcp_servers/**/*.py", "mcp_servers/**/*.pyi", "tests/**/*.py", "docs/**/*.py", "examples/**/*.py", "pyproject.toml"]
-exclude = ["docs/docs_src", "tests/openapi/security/expected_*.py"]
+exclude = ["docs/docs_src", "tests/openapi/security/expected_*.py", "mcp_servers/servers"]
 
 [tool.ruff.lint]
 select = [
