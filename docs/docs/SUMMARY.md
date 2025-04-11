@@ -13,6 +13,13 @@ search:
 - Reference
     - API
         - mcp_servers
+            - cli
+                - cli
+                    - [callback](api/mcp_servers/cli/cli/callback.md)
+                    - [gen](api/mcp_servers/cli/cli/gen.md)
+                    - [main](api/mcp_servers/cli/cli/main.md)
+                    - [version](api/mcp_servers/cli/cli/version.md)
+                    - [version_callback](api/mcp_servers/cli/cli/version_callback.md)
             - dummy
                 - [dummy](api/mcp_servers/dummy/dummy.md)
 - [Contributing](contributing/index.md)
