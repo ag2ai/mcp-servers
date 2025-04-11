@@ -22,6 +22,7 @@ search:
                     - [version_callback](api/mcp_servers/cli/cli/version_callback.md)
             - dummy
                 - [dummy](api/mcp_servers/dummy/dummy.md)
+    - [CLI](cli/cli.md)
 - [Contributing](contributing/index.md)
     - [Development](contributing/CONTRIBUTING.md)
     - [Documentation](contributing/docs.md)
