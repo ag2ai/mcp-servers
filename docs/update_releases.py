@@ -1,13 +1,11 @@
-"""Update the release notes with the latest version and changelog."""
-
 import re
-from collections.abc import Sequence
 from pathlib import Path
+from typing import List, Sequence, Tuple
 
 import requests
 
 
-def _find_metablock(lines: list[str]) -> tuple[list[str], list[str]]:
+def find_metablock(lines: List[str]) -> Tuple[List[str], List[str]]:
     if lines[0] != "---":
         return [], lines
 
@@ -19,7 +17,7 @@ def _find_metablock(lines: list[str]) -> tuple[list[str], list[str]]:
     return lines[:index], lines[index:]
 
 
-def _find_header(lines: list[str]) -> tuple[str, list[str]]:
+def find_header(lines: List[str]) -> Tuple[str, List[str]]:
     for i in range(len(lines)):
         if (line := lines[i]).startswith("#"):
             return line, lines[i + 1 :]
@@ -27,13 +25,19 @@ def _find_header(lines: list[str]) -> tuple[str, list[str]]:
     return "", lines
 
 
-def _get_github_releases() -> Sequence[tuple[str, str]]:
+def get_github_releases() -> Sequence[Tuple[str, str]]:
     # Get the latest version from GitHub releases
-    response = requests.get("https://api.github.com/repos/ag2ai/mcp-servers/releases")
-    return ((x["tag_name"], x["body"]) for x in reversed(response.json()))
+    response = requests.get(
+        "https://api.github.com/repos/{{cookiecutter.github_username}}/mcp_servers/releases"
+    )
+    return (
+        ((x["tag_name"], x["body"]) for x in reversed(response.json()))
+        if response.ok
+        else []
+    )
 
 
-def _convert_links_and_usernames(text):
+def convert_links_and_usernames(text):
     if "](" not in text:
         # Convert HTTP/HTTPS links
         text = re.sub(
@@ -50,37 +54,29 @@ def _convert_links_and_usernames(text):
     return text
 
 
-def _collect_already_published_versions(text: str) -> list[str]:
-    data: list[str] = re.findall(r"## [v]?(\d.\d.\d.*)", text)
+def collect_already_published_versions(text: str) -> List[str]:
+    data: List[str] = re.findall(r"## (\d.\d.\d.*)", text)
     return data
 
 
-def update_release_notes(realease_notes_path: Path) -> None:
-    """Update the release notes with the latest version and changelog.
-
-    Args:
-        realease_notes_path: The path of the release notes file.
-
-    """
+def update_release_notes(realease_notes_path: Path):
     # Get the changelog from the RELEASE.md file
     changelog = realease_notes_path.read_text()
 
-    metablock, lines = _find_metablock(changelog.splitlines())
+    metablock, lines = find_metablock(changelog.splitlines())
     metablock = "\n".join(metablock)
 
-    header, changelog = _find_header(lines)
+    header, changelog = find_header(lines)
     changelog = "\n".join(changelog)
 
-    old_versions = _collect_already_published_versions(changelog)
+    old_versions = collect_already_published_versions(changelog)
 
     for version, body in filter(
-        lambda v: v[0] not in old_versions
-        if "v" not in v[0]
-        else v[0][1:] not in old_versions,
-        _get_github_releases(),
+        lambda v: v[0] not in old_versions,
+        get_github_releases(),
     ):
         body = body.replace("##", "###")
-        body = _convert_links_and_usernames(body)
+        body = convert_links_and_usernames(body)
         version_changelog = f"## {version}\n\n{body}\n\n"
         changelog = version_changelog + changelog
 

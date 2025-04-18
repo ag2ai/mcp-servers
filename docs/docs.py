@@ -1,20 +1,20 @@
-"""A script to help with docs development."""
+"""A script to help with the translation of the docs."""
 
 import os
 import subprocess
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 from shutil import rmtree
-from typing import Annotated, Optional
+from typing import Optional
 
 import mkdocs.commands.build
 import mkdocs.commands.serve
 import typer
-from create_api_docs import create_api_docs, get_navigation_template
-from create_cli_docs import create_cli_docs
+from create_api_docs import create_api_docs
 from expand_markdown import expand_markdown
 from mkdocs.config import load_config
-from update_releases import _find_metablock, update_release_notes
+from typing_extensions import Annotated
+from update_releases import find_metablock, update_release_notes
 
 IGNORE_DIRS = ("assets", "stylesheets")
 
@@ -29,7 +29,9 @@ BUILD_DIR = BASE_DIR / "site"
 EN_DOCS_DIR = DOCS_DIR / "en"
 EN_INDEX_PATH = EN_DOCS_DIR / "index.md"
 README_PATH = BASE_DIR.parent / "README.md"
-EN_CONTRIBUTING_PATH = EN_DOCS_DIR / "contributing" / "CONTRIBUTING.md"
+EN_CONTRIBUTING_PATH = (
+    EN_DOCS_DIR / "getting-started" / "contributing" / "CONTRIBUTING.md"
+)
 CONTRIBUTING_PATH = BASE_DIR.parent / "CONTRIBUTING.md"
 
 
@@ -38,25 +40,25 @@ config = load_config(str(CONFIG))
 DEV_SERVER = str(config.get("dev_addr", "0.0.0.0:8008"))
 
 
-def _get_missing_translation(lng: str) -> Path:
+def get_missing_translation(lng: str) -> Path:
     return DOCS_DIR / lng / "helpful" / "missing-translation.md"
 
 
-def _get_in_progress(lng: str) -> Path:
+def get_in_progress(lng: str) -> Path:
     return DOCS_DIR / lng / "helpful" / "in-progress.md"
 
 
 app = typer.Typer()
 
 
-def _get_default_title(file: Path) -> str:
+def get_default_title(file: Path) -> str:
     title = file.stem.upper().replace("-", " ")
     if title == "INDEX":
-        title = _get_default_title(file.parent)
+        title = get_default_title(file.parent)
     return title
 
 
-def _join_nested(root: Path, path: str) -> Path:
+def join_nested(root: Path, path: str) -> Path:
     for i in path.split("/"):
         root = root / i
     return _touch_file(root)
@@ -90,11 +92,6 @@ def preview():
 
 @app.command()
 def live(port: Annotated[Optional[str], typer.Argument()] = None):
-    """Serve mkdocs with live reload.
-
-    Args:
-        port: The port to serve on.
-    """
     dev_server = f"0.0.0.0:{port}" if port else DEV_SERVER
 
     typer.echo("Serving mkdocs with live reload")
@@ -104,26 +101,18 @@ def live(port: Annotated[Optional[str], typer.Argument()] = None):
 
 @app.command()
 def build():
-    """Build the site."""
     _build()
 
 
 @app.command()
-def add(
-    path: Annotated[str, typer.Argument(..., help="path of the file to add")],
-) -> None:
-    """Add a new file to all languages.
-
-    Args:
-        path: The path of the file to add.
-    """
+def add(path: str):
     title = ""
 
     exists = []
     not_exists = []
 
     for i in LANGUAGES_DIRS:
-        file = _join_nested(i, path)
+        file = join_nested(i, path)
 
         if file.exists():
             exists.append(i)
@@ -135,8 +124,8 @@ def add(
         else:
             not_exists.append(i)
             file.write_text(
-                f"# {title or _get_default_title(file)} \n"
-                "{! " + _get_in_progress(i.name) + " !}"
+                f"# {title or get_default_title(file)} \n"
+                "{! " + get_in_progress(i.name) + " !}"
             )
             typer.echo(f"{file} - write `in progress`")
 
@@ -144,19 +133,14 @@ def add(
         for i in not_exists:
             file = i / path
             file.write_text(
-                f"# {title or _get_default_title(file)} \n"
-                "{! " + _get_missing_translation(i.name) + " !}"
+                f"# {title or get_default_title(file)} \n"
+                "{! " + get_missing_translation(i.name) + " !}"
             )
             typer.echo(f"{file} - write `missing translation`")
 
 
 @app.command()
-def rm(path: Annotated[str, typer.Argument(...)]) -> None:
-    """Remove a file from all languages.
-
-    Args:
-        path: The path of the file to remove.
-    """
+def rm(path: str):
     delete = typer.confirm("Are you sure you want to delete files?")
     if not delete:
         typer.echo("Not deleting")
@@ -177,17 +161,7 @@ def rm(path: Annotated[str, typer.Argument(...)]) -> None:
 
 
 @app.command()
-def mv(
-    path: Annotated[str, typer.Argument(...)],
-    new_path: Annotated[str, typer.Argument(...)],
-) -> None:
-    """Move a file from all languages.
-
-    Args:
-        path: The path of the file to move.
-        new_path: The new path of the file.
-
-    """
+def mv(path: str, new_path: str):
     for i in LANGUAGES_DIRS:
         file = i / path
         if file.exists():
@@ -225,7 +199,7 @@ def update_contributing():
 
     existing_content = CONTRIBUTING_PATH.read_text()
 
-    _, content = _find_metablock(existing_content.splitlines())
+    _, content = find_metablock(existing_content.splitlines())
 
     relative_path = EN_CONTRIBUTING_PATH.relative_to(BASE_DIR.parent)
 
@@ -241,23 +215,14 @@ def update_contributing():
 
 
 @app.command()
-def build_api_and_cli_docs():
-    """Build api and cli docs for mcp_servers."""
-    typer.echo("Updating API and CLI docs")
-    docs_dir = BASE_DIR / "docs"
-
-    navigation_template = get_navigation_template(docs_dir)
-
-    navigation_template = create_api_docs(
-        root_path=BASE_DIR, module="mcp_servers", navigation_template=navigation_template
-    )
-    create_cli_docs(
-        root_path=BASE_DIR, module="mcp_servers", navigation_template=navigation_template
-    )
+def build_api_docs():
+    """Build api docs for mcp_servers."""
+    typer.echo("Updating API docs")
+    create_api_docs(root_path=BASE_DIR, module="mcp_servers")
 
 
 def _build():
-    build_api_and_cli_docs()
+    build_api_docs()
     update_readme()
     update_contributing()
 
