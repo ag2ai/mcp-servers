@@ -6,7 +6,9 @@
 
 import warnings
 
+from .cli import app as cli
+
 warnings.filterwarnings("default", category=ImportWarning, module="mcp_servers")
 
 if __name__ == "__main__":
-    raise NotImplementedError
+    cli(prog_name="mcp-severs")

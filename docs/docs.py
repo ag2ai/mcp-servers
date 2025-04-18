@@ -11,6 +11,7 @@ import mkdocs.commands.build
 import mkdocs.commands.serve
 import typer
 from create_api_docs import create_api_docs, get_navigation_template
+from create_cli_docs import create_cli_docs
 from expand_markdown import expand_markdown
 from mkdocs.config import load_config
 from update_releases import _find_metablock, update_release_notes
@@ -253,12 +254,11 @@ def build_api_and_cli_docs():
         navigation_template=navigation_template,
     )
 
-    # todo: add this back once we have CLI commands
-    # create_cli_docs(
-    #     root_path=BASE_DIR,
-    #     module="mcp_servers",
-    #     navigation_template=navigation_template,
-    # )
+    create_cli_docs(
+        root_path=BASE_DIR,
+        module="mcp_servers",
+        navigation_template=navigation_template,
+    )
 
 
 def _build():

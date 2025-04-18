@@ -44,12 +44,20 @@ classifiers = [
 dynamic = ["version"]
 
 dependencies = [
-    # install ag2 from github repo 'ag2ai/ag2', branch '1554-create-mcp-proxy-from-openapi-specifications'
-    "pyautogen[mcp-proxy-gen,mcp]==0.8.6a2",
+    # this is needed to run generated code
+    "pyautogen[mcp]==0.8.6",
 ]
 
 [project.optional-dependencies]
 # public distributions
+
+# this is used for generation of MCP servers internally
+gen = [
+    # this is needed for MCP code generation
+    # the version is restricted in the main dependencies section above
+    "pyautogen[mcp-proxy-gen]",
+    "typer==0.15.2",
+]
 
 # dev dependencies
 devdocs = [
