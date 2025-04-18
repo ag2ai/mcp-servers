@@ -42,7 +42,7 @@ dynamic = ["version"]
 
 dependencies = [
     # install ag2 from github repo 'ag2ai/ag2', branch '1554-create-mcp-proxy-from-openapi-specifications'
-    "pyautogen[mcp-proxy-gen,mcp]==0.8.8a0",
+    "pyautogen[mcp-proxy-gen,mcp]==0.8.8a1",
 ]
 
 [project.optional-dependencies]
