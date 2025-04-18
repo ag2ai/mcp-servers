@@ -1,6 +1,5 @@
 ---
-title: MCP-Servers
-template: home.html
+title: MCP Servers
 ---
 
 # MCP (Model Context Protocol) Servers
