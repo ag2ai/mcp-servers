@@ -42,7 +42,7 @@ dynamic = ["version"]
 
 dependencies = [
     # install ag2 from github repo 'ag2ai/ag2', branch '1554-create-mcp-proxy-from-openapi-specifications'
-    "pyautogen[mcp-proxy-gen,mcp]==0.8.7",
+    "pyautogen[mcp-proxy-gen,mcp]==0.8.8a0",
 ]
 
 [project.optional-dependencies]
@@ -66,7 +66,7 @@ devdocs = [
     "mkdocs-glightbox==0.4.0",  # img zoom
     "pillow==11.2.1",
     "cairosvg==2.7.1",
-    "typer>=0.15.2",
+    "typer",  # the version is limited: fastapi-code-generator 0.5.3 depends on typer<0.13.0 and >=0.2.1
     "requests",  # do not pin it
     "fastapi==0.115.12",
 ]
