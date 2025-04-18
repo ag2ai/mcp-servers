@@ -1,9 +1,7 @@
-"""Expand markdown files with embedded lines from other files."""
-
 import logging
 import re
 from pathlib import Path
-from typing import Annotated, Optional
+from typing import Optional
 
 import typer
 
@@ -13,7 +11,16 @@ logging.basicConfig(level=logging.INFO)
 app = typer.Typer()
 
 
-def _read_lines_from_file(file_path: Path, lines_spec: Optional[str]):
+def read_lines_from_file(file_path: Path, lines_spec: Optional[str]) -> str:
+    """Read lines from a file.
+
+    Args:
+        file_path: The path to the file.
+        lines_spec: A comma-separated string of line numbers and/or line ranges.
+
+    Returns:
+        A string containing the lines from the file.
+    """
     with file_path.open() as file:
         all_lines = file.readlines()
 
@@ -38,7 +45,7 @@ def _read_lines_from_file(file_path: Path, lines_spec: Optional[str]):
     return "".join(selected_lines)
 
 
-def _extract_lines(embedded_line: str) -> str:
+def extract_lines(embedded_line: str) -> str:
     to_expand_path_elements = re.search("{!>(.*)!}", embedded_line).group(1).strip()
     lines_spec = ""
     if "[ln:" in to_expand_path_elements:
@@ -53,21 +60,14 @@ def _extract_lines(embedded_line: str) -> str:
     else:
         raise ValueError("Couldn't find docs_src directory")
 
-    return _read_lines_from_file(base_path / to_expand_path_elements, lines_spec)
+    return read_lines_from_file(base_path / to_expand_path_elements, lines_spec)
 
 
 @app.command()
 def expand_markdown(
-    input_markdown_path: Annotated[Path, typer.Argument(...)],
-    output_markdown_path: Annotated[Path, typer.Argument(...)],
-) -> None:
-    """Expand markdown files with embedded lines from other files.
-
-    Args:
-        input_markdown_path: The path of the markdown file to expand.
-        output_markdown_path: The path of the expanded markdown file.
-
-    """
+    input_markdown_path: Path,
+    output_markdown_path: Path,
+):
     with (
         input_markdown_path.open() as input_file,
         output_markdown_path.open("w") as output_file,
@@ -78,10 +78,10 @@ def expand_markdown(
                 # Write the line to the output file
                 output_file.write(line)
             else:
-                output_file.write(_extract_lines(embedded_line=line))
+                output_file.write(extract_lines(embedded_line=line))
 
 
-def _remove_lines_between_dashes(file_path: Path) -> None:
+def remove_lines_between_dashes(file_path: Path):
     with file_path.open() as file:
         lines = file.readlines()
 

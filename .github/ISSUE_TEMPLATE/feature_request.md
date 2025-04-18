@@ -6,7 +6,7 @@ labels: enhancement
 assignees: ''
 ---
 
-To suggest an idea or inquire about a new Message Broker supporting feature or any other enhancement, please follow this template:
+To suggest an idea or inquire about any other enhancement, please follow this template:
 
 **Is your feature request related to a problem? Please describe.**
 Provide a clear and concise description of the problem you've encountered. For example: "I'm always frustrated when..."
@@ -18,7 +18,7 @@ Clearly and concisely describe the desired outcome or solution.
 To help others understand the proposed feature, illustrate it with a code example:
 
 ```python
-from mcp_servers import *
+import mcp_servers
 ...
 ```
 
